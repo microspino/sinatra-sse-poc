@@ -32,7 +32,7 @@
         var request = new XMLHttpRequest();
         request.open('POST', '/messages', true);
         request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-        request.send('message=' + message.value + '&id=' + (new Date()).toLocaleTimeString());
+        request.send('message=' + message.value);
         document.getElementById('message').value = '';
       });
 
