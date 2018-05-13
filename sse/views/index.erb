@@ -11,10 +11,19 @@
 
     <script>
       var eventSource = new EventSource('sse');
-      eventSource.addEventListener('chat', function(event) {
+      eventSource.addEventListener('open', function(e) {
+        console.log('Connection was opened.')
+      }, false);
+
+      eventSource.addEventListener('error', function(e) {
+        if (e.target.readyState == 0) eventSource.close();
+        if (e.readyState == EventSource.CLOSED) console.log('Connection was closed.');
+      }, false);
+
+      eventSource.addEventListener('chat', function(e) {
         var li = document.createElement('li');
         document.getElementById('messages').appendChild(li)
-        li.innerHTML = '<li>' + event.data + '</li>'
+        li.innerHTML = '<li>' + e.data + '</li>'
       })
 
       document.getElementById('send-message').addEventListener('click', function(e){
@@ -23,7 +32,7 @@
         var request = new XMLHttpRequest();
         request.open('POST', '/messages', true);
         request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-        request.send('message=' + message.value);
+        request.send('message=' + message.value + '&id=' + (new Date()).toLocaleTimeString());
         document.getElementById('message').value = '';
       });
 
