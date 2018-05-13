@@ -15,3 +15,6 @@ $ bundle exec puma config.ru
 ```
 
 Then visit http://localhost:9292/.
+
+NOTE:
+It seems that sending SIGQUIT (via `Ctrl-\`) is needed to kill the PUMA process.

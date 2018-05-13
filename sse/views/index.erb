@@ -1,28 +1,32 @@
 <html>
   <head>
-    <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
   </head>
   <body>
     <form>
       <input type='text' id='message' autofocus></input>
-      <input type='submit' id='send-message' value='Send'>
+      <input type="submit" value="Send" id="send-message">
     </form>
 
     <ul id='messages'></ul>
 
     <script>
       var eventSource = new EventSource('sse');
-
       eventSource.addEventListener('chat', function(event) {
-        $('#messages').append('<li>' + event.data + '</li>');
+        var li = document.createElement('li');
+        document.getElementById('messages').appendChild(li)
+        li.innerHTML = '<li>' + event.data + '</li>'
       })
-      
-      $('#send-message').on('click', function(event) {
-        var message = $('#message').val();
-        $.post('messages', 'message=' + message);
-        $('#message').val('');
-        event.preventDefault();
+
+      document.getElementById('send-message').addEventListener('click', function(e){
+        e.preventDefault();
+        if (!message.value) return;
+        var request = new XMLHttpRequest();
+        request.open('POST', '/messages', true);
+        request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+        request.send('message=' + message.value);
+        document.getElementById('message').value = '';
       });
+
     </script>
   </body>
 </html>

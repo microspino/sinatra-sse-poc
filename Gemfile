@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
-gem 'sinatra', '~> 1.4'
-gem 'puma', '~> 2.10'
+gem 'sinatra', '~> 2.0'
+gem 'puma', '~> 3.11.4'
 
 group :development do
   gem 'pry'
